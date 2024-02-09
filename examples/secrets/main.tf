@@ -60,16 +60,17 @@ resource "random_password" "second_secret" {
 }
 
 module "keyvault" {
-  source                   = "Azure/avm-res-keyvault-vault/azurerm"
-  version                  = "0.5.1"
-  name                     = module.naming.key_vault.name_unique
-  enable_telemetry         = var.enable_telemetry
-  location                 = azurerm_resource_group.this.location
-  resource_group_name      = azurerm_resource_group.this.name
-  tenant_id                = data.azurerm_client_config.this.tenant_id
-  purge_protection_enabled = false
-  sku_name                 = "standard"
-  tags                     = var.tags
+  source                        = "Azure/avm-res-keyvault-vault/azurerm"
+  version                       = "0.5.1"
+  name                          = module.naming.key_vault.name_unique
+  enable_telemetry              = var.enable_telemetry
+  location                      = azurerm_resource_group.this.location
+  resource_group_name           = azurerm_resource_group.this.name
+  tenant_id                     = data.azurerm_client_config.this.tenant_id
+  purge_protection_enabled      = false
+  public_network_access_enabled = true # so we can check the secrets get created ok.
+  sku_name                      = "standard"
+  tags                          = var.tags
 
   secrets = {
     "my_first_secret" = {
