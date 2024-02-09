@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/random"
       version = ">= 3.5.0, < 4.0.0"
     }
+    http = {
+      source  = "hashicorp/http"
+      version = ">= 3.4.1, < 4.0.0"
+    }
   }
 }
 
@@ -59,6 +63,11 @@ resource "random_password" "second_secret" {
   special = true
 }
 
+# get the IP client running terraform
+data "http" "my_ip" {
+  url = "https://ifconfig.me/ip"
+}
+
 module "keyvault" {
   source                        = "Azure/avm-res-keyvault-vault/azurerm"
   version                       = "0.5.1"
@@ -71,6 +80,10 @@ module "keyvault" {
   public_network_access_enabled = true # so we can check the secrets get created ok.
   sku_name                      = "standard"
   tags                          = var.tags
+
+  network_acls = {
+    ip_rules = [data.http.my_ip.response_body]
+  }
 
   role_assignments = {
     devops_principal_secrets_officer = {
