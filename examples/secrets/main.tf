@@ -114,4 +114,8 @@ module "keyvault" {
     "my_first_secret"  = random_password.second_secret.result,
     "my_second_secret" = random_password.second_secret.result
   }
+
+  wait_for_rbac_before_secret_operations = {
+    create = "60s"
+  }
 }
