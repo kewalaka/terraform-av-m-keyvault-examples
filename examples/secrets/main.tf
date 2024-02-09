@@ -73,15 +73,15 @@ module "keyvault" {
 
   secrets = {
     "my_first_secret" = {
-      name = "my_1st_secret"
+      name = "my-1st-secret" # name only supports alphanumeric & dashes
     }
     "my_second_secret" = {
-      name = "my_2nd_secret"
+      name = "my-2nd-secret"
       # optional parameters
       description     = "this is a very important secret that does important things"
       content_type    = "text/plain"
-      expiration_date = "2024-12-12"
-      not_before_date = "2024-01-01"
+      expiration_date = "2024-08-01T00:00:00Z"
+      not_before_date = "2024-01-01T14:30:00+12:00" # RFC3339 format - 14:30 on 1st Jan 2024 UTC+12
       tags = merge(var.tags, {
         my_extra_tag_for_secret = "top secret"
       })

@@ -10,7 +10,10 @@ DESCRIPTION
 
 
 variable "tags" {
-  type    = map(any)
-  default = {}
+  type = map(any)
+  default = {
+    environment = "dev"
+    purpose     = "terraform example testing"
+  }
 }
-  
+
