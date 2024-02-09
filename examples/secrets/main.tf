@@ -86,8 +86,8 @@ module "keyvault" {
   }
 
   role_assignments = {
-    devops_principal_secrets_user = {
-      role_definition_id_or_name = "Key Vault Secrets User"
+    devops_principal_secrets_officer = {
+      role_definition_id_or_name = "Key Vault Secrets Officer"
       principal_id               = data.azurerm_client_config.this.object_id
     },
   }
@@ -113,9 +113,5 @@ module "keyvault" {
   secrets_value = {
     "my_first_secret"  = random_password.second_secret.result,
     "my_second_secret" = random_password.second_secret.result
-  }
-
-  wait_for_rbac_before_secret_operations = {
-    create = "180s"
   }
 }
