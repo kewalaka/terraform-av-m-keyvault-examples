@@ -72,6 +72,13 @@ module "keyvault" {
   sku_name                      = "standard"
   tags                          = var.tags
 
+  role_assignments = {
+    devops_principal_secrets_officer = {
+      role_definition_id_or_name = "Key Vault Secrets User"
+      principal_id               = data.azurerm_client_config.this.object_id
+    },
+  }
+
   secrets = {
     "my_first_secret" = {
       name = "my-1st-secret" # name only supports alphanumeric & dashes
